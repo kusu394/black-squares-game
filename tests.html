@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BLACK SQUARES — Engine Tests</title>
+  <style>
+    body { max-width: 760px; margin: 50px auto; padding: 0 22px; font-family: system-ui, sans-serif; color: #151a17; background: #f3f1e9; }
+    a { color: inherit; } h1 { font-size: clamp(30px, 7vw, 54px); margin-bottom: 8px; }
+    #summary { font-weight: 700; padding: 15px; border: 1px solid; }
+    #summary.pass { background: #c7ff3d; } #summary.fail { color: white; background: #b3261e; }
+    li { margin: 8px 0; } .pass::marker { color: #198754; } .fail::marker { color: #b3261e; }
+  </style>
+  <script defer src="game.js"></script>
+  <script defer src="tests.js"></script>
+</head>
+<body>
+  <p><a href="index.html">← ゲームへ戻る</a></p>
+  <h1>Engine Tests</h1>
+  <p id="summary">実行中…</p>
+  <ol id="results"></ol>
+</body>
+</html>

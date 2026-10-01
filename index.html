@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="4×4の盤面で遊ぶ、完全手CPUとの黒塗りゲーム">
+  <title>4×4 黒塗りゲーム</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="game.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main>
+    <header class="page-header">
+      <div>
+        <h1>4×4 黒塗りゲーム</h1>
+        <p>先手か後手を選び、完全手のCPUに3連勝してください。</p>
+      </div>
+      <button class="link-button" id="rules-button" type="button">遊び方</button>
+    </header>
+
+    <section class="progress" aria-label="チャレンジの進行状況">
+      <div>
+        <span>連勝</span>
+        <strong><span id="streak-number">0</span> / 3</strong>
+        <span class="streak" id="streak" aria-label="現在0連勝">
+          <i class="streak-dot"></i><i class="streak-dot"></i><i class="streak-dot"></i>
+        </span>
+      </div>
+      <div><span>ラウンド</span><strong><span id="round-number">1</span> / 3</strong></div>
+      <button class="link-button" id="reset-button" type="button">やり直す</button>
+    </section>
+
+    <section class="game" aria-label="ゲーム">
+      <div class="board-column">
+        <div class="board-frame">
+          <div class="board" id="board" role="grid" aria-label="4かける4のゲーム盤"></div>
+          <div class="selection-outline" id="selection-outline" aria-hidden="true"></div>
+          <div class="move-grid" id="move-grid" aria-label="2かける2の領域を選択"></div>
+        </div>
+        <p class="board-hint">選択する2×2の外枠が表示されます</p>
+      </div>
+
+      <div class="controls">
+        <p class="phase-tag" id="phase-tag">先手・後手の選択</p>
+        <h2 id="status-title">先手・後手を選んでください</h2>
+        <p id="status-copy">盤面を見て、勝てると思う側を選びましょう。</p>
+
+        <div class="order-actions" id="order-actions">
+          <button class="primary-button" data-order="first" type="button">先手を選ぶ</button>
+          <button class="secondary-button" data-order="second" type="button">後手を選ぶ</button>
+        </div>
+
+        <div class="play-info" id="play-info" hidden>
+          <p><span>現在の手番</span><strong id="turn-owner">あなた</strong></p>
+          <p><span>合法手</span><strong><span id="legal-count">0</span> 通り</strong></p>
+        </div>
+
+        <button class="primary-button next-button" id="next-button" type="button" hidden>次の盤面へ</button>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="rules-dialog">
+    <form method="dialog">
+      <button class="dialog-close" aria-label="閉じる">×</button>
+      <h2>遊び方</h2>
+      <ol>
+        <li>盤面を見て、先手か後手を選びます。</li>
+        <li>白を1マス以上含む2×2を選び、4マスすべてを黒にします。</li>
+        <li>CPUと交互に操作し、操作できなくなった側が負けです。</li>
+        <li>3連勝するとクリアです。</li>
+      </ol>
+    </form>
+  </dialog>
+
+  <div class="sr-only" id="announcer" aria-live="polite"></div>
+</body>
+</html>
