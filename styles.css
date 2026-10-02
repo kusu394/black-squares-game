@@ -25,7 +25,6 @@ h1 { margin: 0 0 8px; font-size: clamp(24px, 4vw, 34px); }
 .move-button { position: relative; border: 0; background: transparent; cursor: pointer; }
 .move-button:focus-visible { outline: 3px solid var(--accent); outline-offset: -4px; }
 .move-button:disabled { cursor: not-allowed; }
-.move-button:disabled::after { content: ""; position: absolute; inset: 48%; border-radius: 50%; background: rgba(255,255,255,.8); }
 .board-hint { margin: 10px 0 0; color: var(--muted); text-align: center; font-size: 12px; }
 .touch-hint { display: none; }
 .controls h2 { margin: 12px 0; font-size: clamp(24px, 4vw, 34px); line-height: 1.3; }
