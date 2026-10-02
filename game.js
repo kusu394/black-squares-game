@@ -78,6 +78,16 @@
     return Math.floor(value * length);
   }
 
+  function countBlack(state) {
+    let value = state & FULL_STATE;
+    let count = 0;
+    while (value) {
+      value &= value - 1;
+      count += 1;
+    }
+    return count;
+  }
+
   function chooseCpuMove(state, random = Math.random) {
     const legal = legalMoves(state);
     if (!legal.length) return -1;
@@ -99,10 +109,13 @@
     return CLASS_PLANS[randomIndex(CLASS_PLANS.length, random)].slice();
   }
 
-  function drawState(resultClass, usedStates = new Set(), random = Math.random) {
-    const source = resultClass === "first-win"
+  function drawState(resultClass, usedStates = new Set(), random = Math.random, minimumWhite = 0) {
+    const allStates = resultClass === "first-win"
       ? analysis.firstWinStates
       : analysis.secondWinStates;
+    const source = minimumWhite > 0
+      ? allStates.filter((state) => SIZE * SIZE - countBlack(state) >= minimumWhite)
+      : allStates;
     if (usedStates.size >= source.length) throw new Error("未使用の盤面がありません。");
 
     const start = randomIndex(source.length, random);
@@ -136,6 +149,7 @@
     chooseCpuMove,
     createClassPlan,
     drawState,
+    countBlack,
     moveCells
   };
 });

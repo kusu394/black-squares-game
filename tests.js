@@ -66,6 +66,16 @@
     assert(engine.isWinning(second));
   });
 
+  test("3問目用の盤面は白マスを8個以上含む", () => {
+    for (const resultClass of ["first-win", "second-win"]) {
+      for (const random of [0, 0.25, 0.5, 0.75, 0.999]) {
+        const state = engine.drawState(resultClass, new Set(), () => random, 8);
+        assert(16 - engine.countBlack(state) >= 8);
+        assert(engine.isWinning(state) === (resultClass === "first-win"));
+      }
+    }
+  });
+
   test("全6種類の3局構成が両クラスを含む", () => {
     for (let index = 0; index < 6; index += 1) {
       const plan = engine.createClassPlan(() => (index + 0.1) / 6);

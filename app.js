@@ -37,6 +37,7 @@
     humanOrder: null,
     winner: null,
     lastMove: -1,
+    selectedMove: -1,
     cpuThinking: false,
     runToken: 0
   };
@@ -58,11 +59,17 @@
       button.className = "move-button";
       button.dataset.move = String(index);
       button.setAttribute("aria-label", `上から${row}行目、左から${col}列目を左上とする2×2を黒にする`);
+      let pointerType = "mouse";
+      button.addEventListener("pointerdown", (event) => { pointerType = event.pointerType; });
       button.addEventListener("mouseenter", () => highlightMove(index));
-      button.addEventListener("mouseleave", clearHighlight);
+      button.addEventListener("mouseleave", () => unhighlightMove(index));
       button.addEventListener("focus", () => highlightMove(index));
-      button.addEventListener("blur", clearHighlight);
-      button.addEventListener("click", () => humanMove(index));
+      button.addEventListener("blur", () => unhighlightMove(index));
+      button.addEventListener("click", () => {
+        const currentPointerType = pointerType;
+        pointerType = "mouse";
+        humanMove(index, currentPointerType);
+      });
       moveGrid.appendChild(button);
       moveButtons.push(button);
     }
@@ -77,6 +84,10 @@
 
   function clearHighlight() {
     selectionOutline.classList.remove("visible");
+  }
+
+  function unhighlightMove(moveIndex) {
+    if (model.selectedMove !== moveIndex) clearHighlight();
   }
 
   function startNewSet() {
@@ -94,9 +105,11 @@
     model.winner = null;
     model.humanOrder = null;
     model.lastMove = -1;
+    model.selectedMove = -1;
     model.cpuThinking = false;
     const resultClass = model.roundClasses[model.roundIndex];
-    model.initialState = engine.drawState(resultClass, model.usedStates);
+    const minimumWhite = model.roundIndex === 2 ? 8 : 0;
+    model.initialState = engine.drawState(resultClass, model.usedStates, Math.random, minimumWhite);
     model.usedStates.add(model.initialState);
     model.state = model.initialState;
     render();
@@ -113,15 +126,22 @@
     if (model.turn === "cpu") scheduleCpuMove();
   }
 
-  function humanMove(moveIndex) {
+  function humanMove(moveIndex, pointerType) {
     if (model.phase !== "playing" || model.turn !== "human" || model.cpuThinking) return;
     if (!engine.isLegal(model.state, moveIndex)) return;
+    if (pointerType === "touch" && model.selectedMove !== moveIndex) {
+      model.selectedMove = moveIndex;
+      highlightMove(moveIndex);
+      announce("2×2を選択しました。同じ場所をもう一度タップすると確定します。");
+      return;
+    }
     makeMove(moveIndex, "human");
   }
 
   function makeMove(moveIndex, actor) {
     model.state = engine.applyMove(model.state, moveIndex);
     model.lastMove = moveIndex;
+    model.selectedMove = -1;
     clearHighlight();
 
     if (engine.legalMoves(model.state).length === 0) {

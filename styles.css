@@ -27,6 +27,7 @@ h1 { margin: 0 0 8px; font-size: clamp(24px, 4vw, 34px); }
 .move-button:disabled { cursor: not-allowed; }
 .move-button:disabled::after { content: ""; position: absolute; inset: 48%; border-radius: 50%; background: rgba(255,255,255,.8); }
 .board-hint { margin: 10px 0 0; color: var(--muted); text-align: center; font-size: 12px; }
+.touch-hint { display: none; }
 .controls h2 { margin: 12px 0; font-size: clamp(24px, 4vw, 34px); line-height: 1.3; }
 .controls > p:not(.phase-tag) { margin: 0 0 28px; color: var(--muted); font-size: 14px; line-height: 1.7; }
 .phase-tag { margin: 0; color: var(--accent); font-size: 12px; font-weight: 700; }
@@ -46,4 +47,5 @@ dialog li { margin: 10px 0; line-height: 1.6; }
 .dialog-close { float: right; border: 0; background: none; font-size: 24px; cursor: pointer; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 @media (max-width: 680px) { main { padding: 24px 0; } .page-header { display: block; } .page-header .link-button { margin-top: 18px; } .progress { gap: 16px; flex-wrap: wrap; } .game { grid-template-columns: 1fr; padding: 32px 0; } }
+@media (pointer: coarse) { .pointer-hint { display: none; } .touch-hint { display: inline; } .selection-outline { border-width: 6px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; } }
